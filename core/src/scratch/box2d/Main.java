@@ -7,6 +7,9 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapObjects;
+import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
@@ -15,7 +18,9 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.physics.box2d.ChainShape;
 import com.badlogic.gdx.physics.box2d.PolygonShape;
+import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 
 public class Main extends ApplicationAdapter {
@@ -40,14 +45,16 @@ public class Main extends ApplicationAdapter {
 
         world = new World(new Vector2(0, -9.8f), false);
         b2dr = new Box2DDebugRenderer();
-        player = createBox(0, 8, 32, 32, false);
-        platform = createBox(0, 0, 64, 32, true);
+        player = createBox(140, 100, 32, 32, false);
+        platform = createBox(140, 60, 64, 32, true);
 
         batch = new SpriteBatch();
         texture = new Texture("geoDash.png");
 
         map = new TmxMapLoader().load("map.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(map);
+
+        parseTiledObjectLayer(world, map.getLayers().get("Object Layer 1").getObjects());
     }
 
     @Override
@@ -67,7 +74,7 @@ public class Main extends ApplicationAdapter {
     }
 
     @Override
-    public void dispose () {
+    public void dispose() {
         b2dr.dispose();
         batch.dispose();
         texture.dispose();
@@ -93,7 +100,7 @@ public class Main extends ApplicationAdapter {
             horizontalforce += 1;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            player.applyForceToCenter(0, 300, false);
+            player.applyForceToCenter(0, 100, false);
         }
         player.setLinearVelocity(horizontalforce * 5, player.getLinearVelocity().y);
     }
@@ -123,5 +130,33 @@ public class Main extends ApplicationAdapter {
         camera.position.set(position);
 
         camera.update();
+    }
+    private void parseTiledObjectLayer (World world, MapObjects mapObjects){
+        for (MapObject wall : mapObjects) {
+            Shape shape;
+            if (wall instanceof PolylineMapObject) {
+                shape = createPolyLine((PolylineMapObject)wall);
+            } else {
+                continue;
+            }
+            Body body;
+            BodyDef def = new BodyDef();
+            def.type = BodyDef.BodyType.StaticBody;
+            body = world.createBody(def);
+            body.createFixture(shape, 1.0f);
+            shape.dispose();
+        }
+    }
+
+    private ChainShape createPolyLine(PolylineMapObject wall) {
+        float[] vertices = wall.getPolyline().getTransformedVertices();
+        Vector2[] worldVertices = new Vector2[vertices.length/2];
+
+        for (int i = 0; i < worldVertices.length; i++) {
+            worldVertices[i] = new Vector2(vertices[i*2] / PPM, vertices[i*2 + 1] / PPM);
+        }
+        ChainShape chainShape = new ChainShape();
+        chainShape.createChain(worldVertices);
+        return chainShape;
     }
 }
