@@ -47,6 +47,7 @@ public class Main extends ApplicationAdapter {
         texture = new Texture("geoDash.png");
 
         map = new TmxMapLoader().load("map.tmx");
+        tiledMapRenderer = new OrthogonalTiledMapRenderer(map);
     }
 
     @Override
@@ -56,6 +57,8 @@ public class Main extends ApplicationAdapter {
         // render
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        tiledMapRenderer.render();
 
         batch.begin();
         batch.draw(texture, player.getPosition().x * PPM - 16, player.getPosition().y * PPM - 16);
@@ -68,12 +71,16 @@ public class Main extends ApplicationAdapter {
         b2dr.dispose();
         batch.dispose();
         texture.dispose();
+        world.dispose();
+        tiledMapRenderer.dispose();
+        map.dispose();
     }
 
     private void update() {
         world.step(1 / 60f, 6, 2);
         inputUpdate();
         updateCamera();
+        tiledMapRenderer.setView(camera);
         batch.setProjectionMatrix(camera.combined);
     }
 
