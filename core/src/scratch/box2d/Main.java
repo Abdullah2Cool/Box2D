@@ -23,6 +23,7 @@ import com.badlogic.gdx.physics.box2d.PolygonShape;
 import com.badlogic.gdx.physics.box2d.Shape;
 import com.badlogic.gdx.physics.box2d.World;
 
+// http://www.motacore.com/2d-tile-generator/
 public class Main extends ApplicationAdapter {
 
     OrthographicCamera camera;
@@ -30,7 +31,7 @@ public class Main extends ApplicationAdapter {
     World world;
     Body player, platform;
     final float PPM = 32;
-    final float SCALE = 2;
+    final float SCALE = 1;
     SpriteBatch batch;
     Texture texture;
     OrthogonalTiledMapRenderer tiledMapRenderer;
@@ -43,7 +44,7 @@ public class Main extends ApplicationAdapter {
         camera = new OrthographicCamera();
         camera.setToOrtho(false, width / SCALE, height / SCALE);
 
-        world = new World(new Vector2(0, -9.8f), false);
+        world = new World(new Vector2(0, -80), false);
         b2dr = new Box2DDebugRenderer();
         player = createBox(140, 100, 32, 32, false);
         platform = createBox(140, 60, 64, 32, true);
@@ -54,8 +55,8 @@ public class Main extends ApplicationAdapter {
         map = new TmxMapLoader().load("map.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(map);
 
-        parseTiledObjectLayer(world, map.getLayers().get("Object Layer 1").getObjects());
-    }
+        parseTiledObjectLayer(world, map.getLayers().get("collision").getObjects());
+}
 
     @Override
     public void render() {
@@ -100,9 +101,9 @@ public class Main extends ApplicationAdapter {
             horizontalforce += 1;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            player.applyForceToCenter(0, 100, false);
+            player.applyForceToCenter(0, 1000, false);
         }
-        player.setLinearVelocity(horizontalforce * 5, player.getLinearVelocity().y);
+        player.setLinearVelocity(horizontalforce * 10, player.getLinearVelocity().y);
     }
 
     private Body createBox(float x, float y, int width, int height, boolean isStatic) {
