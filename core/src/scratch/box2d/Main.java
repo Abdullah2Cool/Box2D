@@ -43,11 +43,12 @@ public class Main extends ApplicationAdapter {
         float height = Gdx.graphics.getHeight();
         camera = new OrthographicCamera();
         camera.setToOrtho(false, width / SCALE, height / SCALE);
+        camera.position.set(width / 2, height / 2 + 80, 0);
 
-        world = new World(new Vector2(0, -80), false);
+        world = new World(new Vector2(0, -9.8f), false);
         b2dr = new Box2DDebugRenderer();
         player = createBox(140, 100, 32, 32, false);
-        platform = createBox(140, 60, 64, 32, true);
+        //platform = createBox(140, 60, 64, 32, true);
 
         batch = new SpriteBatch();
         texture = new Texture("geoDash.png");
@@ -56,7 +57,7 @@ public class Main extends ApplicationAdapter {
         tiledMapRenderer = new OrthogonalTiledMapRenderer(map);
 
         parseTiledObjectLayer(world, map.getLayers().get("collision").getObjects());
-}
+    }
 
     @Override
     public void render() {
@@ -71,7 +72,7 @@ public class Main extends ApplicationAdapter {
         batch.begin();
         batch.draw(texture, player.getPosition().x * PPM - 16, player.getPosition().y * PPM - 16);
         batch.end();
-        b2dr.render(world, camera.combined.scl(PPM));
+        //b2dr.render(world, camera.combined.scl(PPM));
     }
 
     @Override
@@ -90,6 +91,7 @@ public class Main extends ApplicationAdapter {
         updateCamera();
         tiledMapRenderer.setView(camera);
         batch.setProjectionMatrix(camera.combined);
+        player.setLinearVelocity(player.getLinearVelocity().x + 5, player.getLinearVelocity().y);
     }
 
     private void inputUpdate() {
@@ -101,7 +103,7 @@ public class Main extends ApplicationAdapter {
             horizontalforce += 1;
         }
         if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            player.applyForceToCenter(0, 1000, false);
+            player.applyForceToCenter(0, 400, false);
         }
         player.setLinearVelocity(horizontalforce * 10, player.getLinearVelocity().y);
     }
@@ -126,17 +128,18 @@ public class Main extends ApplicationAdapter {
 
     private void updateCamera() {
         Vector3 position = camera.position;
-        position.x = player.getPosition().x * PPM;
-        position.y = player.getPosition().y * PPM;
+        position.x = (player.getPosition().x * PPM) + 120;
+        //position.y = player.getPosition().y * PPM;
         camera.position.set(position);
 
         camera.update();
     }
-    private void parseTiledObjectLayer (World world, MapObjects mapObjects){
+
+    private void parseTiledObjectLayer(World world, MapObjects mapObjects) {
         for (MapObject wall : mapObjects) {
             Shape shape;
             if (wall instanceof PolylineMapObject) {
-                shape = createPolyLine((PolylineMapObject)wall);
+                shape = createPolyLine((PolylineMapObject) wall);
             } else {
                 continue;
             }
@@ -151,10 +154,10 @@ public class Main extends ApplicationAdapter {
 
     private ChainShape createPolyLine(PolylineMapObject wall) {
         float[] vertices = wall.getPolyline().getTransformedVertices();
-        Vector2[] worldVertices = new Vector2[vertices.length/2];
+        Vector2[] worldVertices = new Vector2[vertices.length / 2];
 
         for (int i = 0; i < worldVertices.length; i++) {
-            worldVertices[i] = new Vector2(vertices[i*2] / PPM, vertices[i*2 + 1] / PPM);
+            worldVertices[i] = new Vector2(vertices[i * 2] / PPM, vertices[i * 2 + 1] / PPM);
         }
         ChainShape chainShape = new ChainShape();
         chainShape.createChain(worldVertices);
