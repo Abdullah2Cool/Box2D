@@ -73,6 +73,7 @@ public class Main extends ApplicationAdapter {
         batch.draw(texture, player.getPosition().x * PPM - 16, player.getPosition().y * PPM - 16);
         batch.end();
         //b2dr.render(world, camera.combined.scl(PPM));
+        //System.out.println(player.getLinearVelocity().x);
     }
 
     @Override
