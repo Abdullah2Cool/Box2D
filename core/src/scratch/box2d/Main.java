@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
@@ -33,7 +34,7 @@ public class Main extends ApplicationAdapter {
     final float PPM = 32;
     final float SCALE = 1;
     SpriteBatch batch;
-    Texture texture;
+    Sprite sprite;
     OrthogonalTiledMapRenderer tiledMapRenderer;
     TiledMap map;
 
@@ -51,7 +52,8 @@ public class Main extends ApplicationAdapter {
         //platform = createBox(140, 60, 64, 32, true);
 
         batch = new SpriteBatch();
-        texture = new Texture("geoDash.png");
+        sprite = new Sprite(new Texture("geoDash.png"));
+
 
         map = new TmxMapLoader().load("map.tmx");
         tiledMapRenderer = new OrthogonalTiledMapRenderer(map);
@@ -70,7 +72,9 @@ public class Main extends ApplicationAdapter {
         tiledMapRenderer.render();
 
         batch.begin();
-        batch.draw(texture, player.getPosition().x * PPM - 16, player.getPosition().y * PPM - 16);
+        batch.draw(sprite, player.getPosition().x * PPM - 16, player.getPosition().y * PPM - 16, sprite.getOriginX(), sprite.getOriginY(),
+                sprite.getWidth(), sprite.getHeight(), 1, 1, (float) Math.toDegrees(player.getAngle()));
+        //batch.draw(sprite, player.getPosition().x * PPM - 16, player.getPosition().y * PPM - 16);
         batch.end();
         //b2dr.render(world, camera.combined.scl(PPM));
         //System.out.println(player.getLinearVelocity().x);
@@ -80,7 +84,6 @@ public class Main extends ApplicationAdapter {
     public void dispose() {
         b2dr.dispose();
         batch.dispose();
-        texture.dispose();
         world.dispose();
         tiledMapRenderer.dispose();
         map.dispose();
