@@ -3,8 +3,8 @@
  <tileset firstgid="1" name="tile4" tilewidth="32" tileheight="32" tilecount="384" columns="16">
   <image source="tilemap.png" width="512" height="768"/>
  </tileset>
- <tileset firstgid="385" name="test" tilewidth="32" tileheight="32" spacing="1" tilecount="450" columns="18">
-  <image source="tile2-01-01.png" width="596" height="842"/>
+ <tileset firstgid="385" name="test" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="450" columns="18">
+  <image source="tiles-01-01-01.png" width="596" height="842"/>
  </tileset>
  <layer name="map2" width="50" height="20">
   <data encoding="base64" compression="zlib">
@@ -13,10 +13,10 @@
  </layer>
  <layer name="map1" width="50" height="20">
   <data encoding="base64" compression="zlib">
-   eJztlkEOABAMBOvpvNyRCCFatWQn2YtEZVqHxiASP8nr0AMLemBBDyzogYWHRwol7ZkVpz289gmrOr2e1/Vn0c5H64Gy763e0/Z7x2P05q7H7V18ZVYvenj+C4bJLHbEFw==
+   eJzt0eEKgCAMBGD36PYK0fuWPyKQIvO2OuMOZOAP3bdlSyn/5IweObgiB1fk4IocXHnDMdlx6juvRDvm7e3F7isaL8fZzEtaHeh+UEdrn09rlAOdd4/j6s9eR0Sf3vsa1VHvaHd83Rda5eCqxbACBB3ZiA==
   </data>
  </layer>
- <objectgroup color="#aaff00" name="collision">
+ <objectgroup color="#aaff00" name="collision" visible="0">
   <object id="25" x="32" y="32">
    <polyline points="0,0 0,512 224,512 224,448 448,448 448,384 704,384 704,320 1024,320 1024,384 1152,384 1152,448 1376,448 1376,512 1536,512 1536,0 0,0"/>
   </object>
