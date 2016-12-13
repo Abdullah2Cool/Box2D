@@ -1,22 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="50" height="20" tilewidth="32" tileheight="32" nextobjectid="34">
- <tileset firstgid="1" name="tile4" tilewidth="32" tileheight="32" tilecount="384" columns="16">
-  <image source="tilemap.png" width="512" height="768"/>
- </tileset>
- <tileset firstgid="385" name="test" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="450" columns="18">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="1000" height="30" tilewidth="32" tileheight="32" nextobjectid="34">
+ <tileset firstgid="1" name="test" tilewidth="32" tileheight="32" spacing="1" margin="1" tilecount="450" columns="18">
   <image source="tiles-01-01-01.png" width="596" height="842"/>
  </tileset>
- <layer name="map2" width="50" height="20">
+ <layer name="map2" width="1000" height="30">
   <data encoding="base64" compression="zlib">
-   eJztwzENAAAMA6BOS/17rIw9kNBLqqqqqr4eB2yMoQ==
+   eJztwYEAAAAAw6D5U9/gBFUBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAPAM1M8AAQ==
   </data>
  </layer>
- <layer name="map1" width="50" height="20">
+ <layer name="map1" width="1000" height="30">
   <data encoding="base64" compression="zlib">
-   eJzt0eEKgCAMBGD36PYK0fuWPyKQIvO2OuMOZOAP3bdlSyn/5IweObgiB1fk4IocXHnDMdlx6juvRDvm7e3F7isaL8fZzEtaHeh+UEdrn09rlAOdd4/j6s9eR0Sf3vsa1VHvaHd83Rda5eCqxbACBB3ZiA==
+   eJzt20EKgzAQQFFbegbvf9RuWpDSYjRJ40zeg9m4UGb5GVyXZVkTDAAAAESWoW0z7AAAAMDcMrRthh0AAACYW6+2fbzmH/Q5AAAA0elzAAAAGE+fAwAAwHj6HAAAAMbT5wAAADBehrbNsAMAAABzy9C2GXYAAABgbr3b9r6Zz2et6HMAAACi69m2t8Kppc8BAACIrkXbfruRv99dMrX3dH0OAABAdDVtu3cXL+3z2nu6PgcAACC6kratvY+fmV/fPLsDAAAAXNle27a4j5+ZI/+q63MAAACi22vbng1ec1c/sgMAAABc3ejebjUAAAAQ2eiu1ucAAAAwvqv1OQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAFtPnFIdJA==
   </data>
  </layer>
- <objectgroup color="#aaff00" name="collision" visible="0">
+ <objectgroup color="#aaff00" name="collision">
   <object id="25" x="32" y="32">
    <polyline points="0,0 0,512 224,512 224,448 448,448 448,384 704,384 704,320 1024,320 1024,384 1152,384 1152,448 1376,448 1376,512 1536,512 1536,0 0,0"/>
   </object>
