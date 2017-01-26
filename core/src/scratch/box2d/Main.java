@@ -48,7 +48,7 @@ public class Main extends ApplicationAdapter {
 
         world = new World(new Vector2(0, -9.8f), false);
         b2dr = new Box2DDebugRenderer();
-        player = createBox(140, 100, 32, 32, false);
+        player = createBox(140, 500, 32, 32, false);
         //platform = createBox(140, 60, 64, 32, true);
 
         batch = new SpriteBatch();
@@ -133,7 +133,7 @@ public class Main extends ApplicationAdapter {
     private void updateCamera() {
         Vector3 position = camera.position;
         position.x = (player.getPosition().x * PPM) + 120;
-        //position.y = player.getPosition().y * PPM;
+        position.y = (player.getPosition().y * PPM) + 120;
         camera.position.set(position);
 
         camera.update();
